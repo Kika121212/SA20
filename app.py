@@ -18,7 +18,7 @@ def load_data(file_path):
     # Count wickets (excluding non-bowler dismissals like run outs for bowling stats)
     bowler_wickets = ['bowled', 'caught', 'caught and bowled', 'lbw', 'stumped', 'hit wicket']
     df['is_bowler_wicket'] = df['wicket_type'].isin(bowler_wickets).astype(int)
-    df['is_dismissal'] = df['playet_dismissed'].notna().astype(int)
+    df['is_dismissal'] = df['player_dismissed'].notna().astype(int)
     
     return df
 
@@ -27,7 +27,7 @@ st.set_page_config(layout="wide", page_title="Cricket Analytics Dashboard")
 st.title("🏏 Cricket Match Analysis Dashboard")
 
 # Upload File
-uploaded_file = st.file_file_uploader("Upload your CSV file", type=["csv"])
+uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
 
 if uploaded_file:
     df = load_data(uploaded_file)
