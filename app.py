@@ -40,7 +40,7 @@ if uploaded_file:
     selected_phase = st.sidebar.multiselect("Select Phase", options=['Powerplay', 'Middle Overs', 'Death Overs'], default=['Powerplay', 'Middle Overs', 'Death Overs'])
     
     # Filter Data
-    mask = df['season'].isin(selected_season) & df['phase'].isin(selected_phase)
+    mask = df['season'].isin(selected_season),df['venue'].isin(selected_venue) & df['phase'].isin(selected_phase)
     f_df = df[mask]
 
     tab1, tab2, tab3, tab4 = st.tabs(["Batting", "Bowling", "Team", "Venue"])
