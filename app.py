@@ -108,7 +108,7 @@ if uploaded_file:
             Wickets_Lost=('is_dismissal', 'sum'),
             Balls_Played=('ball', 'count'),
             Dots=('is_dot', 'sum'),
-            Bndries=('is_boundary', 'sum')
+            Bndries=('is_boundary', 'sum'),
             twos=('is_two', 'sum')
         ).reset_index()
         
