@@ -15,6 +15,7 @@ def load_data(file_path):
     df['total_runs'] = df['runs_off_bat'] + df['extras']
     df['is_dot'] = (df['total_runs'] == 0).astype(int)
     df['is_boundary'] = df['runs_off_bat'].isin([4, 6]).astype(int)
+    df['is_two'] = df['runs_off_bat'].isin([2]).astype(int)
     # Count wickets (excluding non-bowler dismissals like run outs for bowling stats)
     bowler_wickets = ['bowled', 'caught', 'caught and bowled', 'lbw', 'stumped', 'hit wicket']
     df['is_bowler_wicket'] = df['wicket_type'].isin(bowler_wickets).astype(int)
@@ -108,6 +109,7 @@ if uploaded_file:
             Balls_Played=('ball', 'count'),
             Dots=('is_dot', 'sum'),
             Bndries=('is_boundary', 'sum')
+            twos=('is_two', 'sum')
         ).reset_index()
         
         venue_stats['Runs_Per_Wicket'] = round(venue_stats['Runs_Scored'] / venue_stats['Wickets_Lost'].replace(0, 1), 2)
