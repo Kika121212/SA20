@@ -36,6 +36,7 @@ if uploaded_file:
     # --- SLICERS ---
     st.sidebar.header("Filters")
     selected_season = st.sidebar.multiselect("Select Season", options=df['season'].unique(), default=df['season'].unique())
+    selected_venue = st.sidebar.multiselect("Select venue", options=df['venue'].unique(), default=df['venue'].unique())
     selected_phase = st.sidebar.multiselect("Select Phase", options=['Powerplay', 'Middle Overs', 'Death Overs'], default=['Powerplay', 'Middle Overs', 'Death Overs'])
     
     # Filter Data
