@@ -1,43 +1,85 @@
-# Updated app.py
+import dash
+import dash_core_components as dcc
+import dash_html_components as html
+from dash.dependencies import Input, Output
+import plotly.graph_objs as go
 
-from flask import Flask, render_template, request
-import matplotlib.pyplot as plt
-import pandas as pd
+# Initialize the Dash app
+app = dash.Dash(__name__)
 
-app = Flask(__name__)
+app.layout = html.Div(
+    style={'backgroundColor': '#111111', 'color': '#FFFFFF'},
+    children=[
+        html.H1(children='Graph Tabs', style={'textAlign': 'center'}),
+        dcc.Tabs(
+            id='tabs',
+            value='tab-1',
+            style={'backgroundColor': '#333333'},
+            children=[
+                dcc.Tab(label='Tab 1', value='tab-1'),
+                dcc.Tab(label='Tab 2', value='tab-2'),
+                dcc.Tab(label='Tab 3', value='tab-3'),
+                dcc.Tab(label='Tab 4', value='tab-4'),
+                dcc.Tab(label='Tab 5', value='tab-5')
+            ]
+        ),
+        html.Div(id='tabs-content')
+    ]
+)
 
-# Routes for existing tabs
+@app.callback(Output('tabs-content', 'children'), [Input('tabs', 'value')])
+def render_content(tab):
+    if tab == 'tab-1':
+        return html.Div([
+            html.H3('Content of Tab 1'),
+            # Add graph here for Tab 1
+        ])
+    elif tab == 'tab-2':
+        return html.Div([
+            html.H3('Content of Tab 2'),
+            # Add graph here for Tab 2
+        ])
+    elif tab == 'tab-3':
+        return html.Div([
+            html.H3('Content of Tab 3'),
+            # Add graph here for Tab 3
+        ])
+    elif tab == 'tab-4':
+        return html.Div([
+            html.H3('Content of Tab 4'),
+            # Add graph here for Tab 4
+        ])
+    elif tab == 'tab-5':
+        return html.Div([
+            html.H3('Content of Tab 5'),
+            dcc.Dropdown(
+                id='dropdown',
+                options=[
+                    {'label': 'Run Worm', 'value': 'run_worm'},
+                    {'label': 'Manhattan', 'value': 'manhattan'},
+                    {'label': 'Run Rate', 'value': 'run_rate'}
+                ],
+                value='run_worm'
+            ),
+            dcc.Graph(id='graph')
+        ])
 
-@app.route('/graph')
-def graph():
-    return render_template('graph.html')  # New graph tab route
+@app.callback(Output('graph', 'figure'), [Input('dropdown', 'value')])
+def update_graph(selected_option):
+    # Example data
+    x = [1, 2, 3, 4]
+    y = [10, 15, 13, 17]
 
-# Function to create Run Worm graph
-def create_run_worm_graph(data):
-    plt.figure()
-    plt.plot(data['overs'], data['scores'])
-    plt.title('Cumulative Run Tracking for Run Worm')
-    plt.xlabel('Overs')
-    plt.ylabel('Runs')
-    plt.savefig('static/run_worm_graph.png')
+    if selected_option == 'run_worm':
+        # Create data for Run Worm graph
+        return {'data': [go.Scatter(x=x, y=y, mode='lines+markers')], 'layout': go.Layout(title='Run Worm Graph', template='plotly_dark')}
+    elif selected_option == 'manhattan':
+        # Create data for Manhattan graph
+        return {'data': [go.Bar(x=x, y=y)], 'layout': go.Layout(title='Manhattan Graph', template='plotly_dark')}
+    elif selected_option == 'run_rate':
+        # Create data for Run Rate graph
+        return {'data': [go.Box(y=y)], 'layout': go.Layout(title='Run Rate Graph', template='plotly_dark')}
 
-# Function to create Manhattan graph
-def create_manhattan_graph(data):
-    plt.figure()
-    plt.hist(data['runs'], bins=20)
-    plt.title('Run Distribution for Manhattan')
-    plt.xlabel('Runs')
-    plt.ylabel('Frequency')
-    plt.savefig('static/manhattan_graph.png')
-
-# Function to create Run Rate graph
-def create_run_rate_graph(data):
-    plt.figure()
-    plt.plot(data['overs'], data['run_rate'])
-    plt.title('Run Rate Over Overs')
-    plt.xlabel('Overs')
-    plt.ylabel('Run Rate')
-    plt.savefig('static/run_rate_graph.png')
-
+# Add download button functionality
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run_server(debug=True)
