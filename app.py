@@ -134,9 +134,11 @@ if uploaded_file:
     selected_season = st.sidebar.multiselect("Select Season", options=df['season'].unique(), default=df['season'].unique())
     selected_venue = st.sidebar.multiselect("Select venue", options=df['venue'].unique(), default=df['venue'].unique())
     selected_phase = st.sidebar.multiselect("Select Phase", options=['Powerplay', 'Middle Overs', 'Death Overs'], default=['Powerplay', 'Middle Overs', 'Death Overs'])
+    selected_battingteam = st.sidebar.multiselect("Select Batting team", options=df['batting_team'].unique(), default=df['batting_team'].unique())
+    selected_bowlingteam = st.sidebar.multiselect("Select Bowling team", options=df['bowling_team'].unique(), default=df['bowling_team'].unique())
     
     # Filter Data
-    mask = df['season'].isin(selected_season) & df['venue'].isin(selected_venue) & df['phase'].isin(selected_phase)
+    mask = df['season'].isin(selected_season) & df['venue'].isin(selected_venue) & df['phase'].isin(selected_phase) & df['batting_team'].isin(selected_phase) & df['bowling_team'].isin(selected_phase)
     f_df = df[mask]
 
     tab1, tab2, tab3, tab4, tab5 = st.tabs(["Batting", "Bowling", "Team", "Venue", "📊 Graphs"]) 
