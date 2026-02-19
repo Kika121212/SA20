@@ -144,7 +144,7 @@ if uploaded_file:
     # --- BATTING STATS ---
     with tab1:
         bat_stats = f_df.groupby('striker').agg(
-            Team=('batting_team')
+            Team=('batting_team'),
             Innings=('match_id', 'nunique'),
             Runs=('runs_off_bat', 'sum'),
             Balls=('ball', 'count'),
